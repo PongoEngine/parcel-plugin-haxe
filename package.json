@@ -1,0 +1,9 @@
+{
+  "name": "parcel-plugin-haxe",
+  "version": "1.0.0",
+  "description": "Parcel Plugin for Haxe",
+  "main": "src/index.js",
+  "repository": "https://github.com/PongoEngine/parcel-plugin-haxe.git",
+  "author": "Jeremy <jeremy@sourcre.am>",
+  "license": "MIT"
+}
