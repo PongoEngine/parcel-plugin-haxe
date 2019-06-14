@@ -1,7 +1,7 @@
 # parcel-plugin-haxe
 Haxe support for Parcel bundler
 
-## usage
+## Usage
 ```
 $ yarn add parcel-plugin-haxe
 ```
