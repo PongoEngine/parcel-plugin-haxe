@@ -10,23 +10,25 @@ module.exports = class HaxeAsset extends Asset {
 
   compileHaxe() {
     return new Promise(function(resolve, reject) {
-      exec("haxe build.hxml", (err, stdout, stderr) => {
-        if (err) {
-          reject(stderr);
-        } else {
-          resolve(".cache/haxe.js");
+      exec(
+        `haxe --macro "addGlobalMetadata('', '@:build(Dependencies.build())')" -cp ${__dirname} build.hxml`,
+        (err, stdout, stderr) => {
+          if (err) {
+            reject(stderr);
+          } else {
+            resolve("complete");
+          }
         }
-      });
+      );
     });
   }
 
   readFile(path) {
     return new Promise(function(resolve, reject) {
       fs.readFile(path, "utf8", function(err, contents) {
-        if(err) {
+        if (err) {
           reject(err);
-        }
-        else {
+        } else {
           resolve(contents);
         }
       });
@@ -34,13 +36,14 @@ module.exports = class HaxeAsset extends Asset {
   }
 
   async generate() {
-    var path = await this.compileHaxe([
-      "lib/Towser/src",
-      "lib/Perdita/src/haxe",
-      "app/editor",
-      "lib/Nosey/src"
-    ]);
-    var code = await this.readFile(path);
+    await this.compileHaxe();
+    var code = await this.readFile(".cache/haxe.js");
+    var dependencies = JSON.parse(
+      await this.readFile(".cache/haxe-dependencies.json")
+    );
+    dependencies.forEach(dep => {
+      this.addDependency(dep, { includedInParent: true });
+    });
 
     let parts = [
       {

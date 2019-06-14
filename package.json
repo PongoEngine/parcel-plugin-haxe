@@ -5,5 +5,8 @@
   "main": "src/index.js",
   "repository": "https://github.com/PongoEngine/parcel-plugin-haxe.git",
   "author": "Jeremy <jeremy@sourcre.am>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "parcel-bundler": "^1.12.3"
+  }
 }
