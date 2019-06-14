@@ -1,2 +1,2 @@
 # parcel-plugin-haxe
-Parcel Plugin for Haxe
+Haxe support for Parcel bundler
