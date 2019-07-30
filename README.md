@@ -3,7 +3,7 @@ Haxe support for Parcel bundler
 
 ## Usage
 ```
-$ yarn add parcel-plugin-haxe
+$ yarn add parcel-plugin-haxe -D
 ```
 ``` html
 <!-- The src file can be any haxe file -->
