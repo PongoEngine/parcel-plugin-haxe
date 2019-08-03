@@ -11,7 +11,7 @@ module.exports = class HaxeAsset extends Asset {
   compileHaxe() {
     return new Promise(function(resolve, reject) {
       exec(
-        `haxe --macro "addGlobalMetadata('', '@:build(Dependencies.build())')" -cp ${__dirname} build.hxml`,
+        `haxe --connect 6122 --macro "addGlobalMetadata('', '@:build(Dependencies.build())')" -D source-map-content -debug -cp ${__dirname} build.hxml -js .cache/haxe.js`,
         (err, stdout, stderr) => {
           if (err) {
             reject(stderr);
@@ -37,7 +37,9 @@ module.exports = class HaxeAsset extends Asset {
 
   async generate() {
     await this.compileHaxe();
-    var code = await this.readFile(".cache/haxe.js");
+    var source = await this.readFile(".cache/haxe.js");
+    var sourceMap = await this.readFile(".cache/haxe.js.map");
+
     var dependencies = JSON.parse(
       await this.readFile(".cache/haxe-dependencies.json")
     );
@@ -48,7 +50,8 @@ module.exports = class HaxeAsset extends Asset {
     let parts = [
       {
         type: "js",
-        value: code
+        value: source,
+        map: JSON.parse(sourceMap)
       }
     ];
 
